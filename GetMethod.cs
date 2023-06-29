@@ -46,7 +46,6 @@ public class GetMethod : MonoBehaviour
 
                 outputArea.text = WeaponryData_DBtoVar_Data;
                 print(WeaponryData_DBtoVar_Data);
-                //var weap = JsonConvert.DeserializeObject<WeaponryData>(b);
                 weapon = JsonUtility.FromJson<WeaponryData>(WeaponryData_DBtoVar_Data);
             }
         }
