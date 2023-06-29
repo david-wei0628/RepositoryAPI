@@ -9,9 +9,10 @@
     { "id": 2, "body": "someBcomment", "postId": 2 }
   ],
   "UserApi":[
-    { "Weaponry": "Sword", "ATK": 15, "DEF": 10},
-    { "Weaponry": "Epee", "ATK": 25, "DEF": 18},
-    { "Weaponry": "LargeShield", "ATK": 27, "DEF": 30}
+    { "strength":"easy", "Weaponry": "Sword", "ATK": 15, "DEF": 10 },
+    { "strength":"normal", "Weaponry": "Sword", "ATK": 30, "DEF": 20 },
+    { "strength":"normal", "Weaponry": "Epee", "ATK": 25, "DEF": 18},
+    { "strength":"head", "Weaponry": "LargeShield", "ATK": 27, "DEF": 30}
   ]
   ,
   "profile": {
