@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -21,7 +20,7 @@ public class GetMethod : MonoBehaviour
 
     private void Start()
     {
-        outputArea =GameObject.Find("OutputArea").GetComponent<InputField>();
+        outputArea = GameObject.Find("OutputArea").GetComponent<InputField>();
         GameObject.Find("GETButton").GetComponent<Button>().onClick.AddListener(GetData);
     }
 
@@ -46,7 +45,7 @@ public class GetMethod : MonoBehaviour
                 var WeaponryData_DBtoVar_Data = SequenceData(request.downloadHandler.text);
 
                 outputArea.text = WeaponryData_DBtoVar_Data;
-                print(weapon.Count);
+                print(weapon[0].Weaponry);
                 //var weap = JsonConvert.DeserializeObject<WeaponryData>(b);
                 //weapon.Add( JsonUtility.FromJson<WeaponryData>(WeaponryData_DBtoVar_Data));
             }
@@ -72,7 +71,8 @@ public class GetMethod : MonoBehaviour
                 //if (item.Length > 10)
                 //{
                 ListJsondata.Add(item + "}");
-                JsondataToList( JsonUtility.FromJson<WeaponryData>(ListJsondata[i]));
+                //JsondataToList( JsonUtility.FromJson<WeaponryData>(ListJsondata[i]));
+                JsondataToList(JsonConvert.DeserializeObject<WeaponryData>(ListJsondata[i]));
                 //weapon.Add(new WeaponryData() { Strength = lastVardata.Strength, Weaponry = lastVardata.Weaponry, ATK = lastVardata.ATK, DEF = lastVardata.DEF});
                 i++;
                 //}
@@ -80,7 +80,8 @@ public class GetMethod : MonoBehaviour
         }
         else
         {
-            JsondataToList(JsonUtility.FromJson<WeaponryData>(newdata[0]));
+            //JsondataToList(JsonUtility.FromJson<WeaponryData>(newdata[0]));
+            JsondataToList(JsonConvert.DeserializeObject<WeaponryData>(newdata[0]));
             //weapon.Add(new WeaponryData() { Strength = lastVardata.Strength, Weaponry = lastVardata.Weaponry, ATK = lastVardata.ATK, DEF = lastVardata.DEF });
         }
 
