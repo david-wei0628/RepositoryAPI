@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 public class GetMethod : MonoBehaviour
 {
     InputField outputArea;
-    WeaponryData weapon;
+    List<WeaponryData> weapon = new List<WeaponryData>();
 
     public class WeaponryData
     {
@@ -29,11 +29,12 @@ public class GetMethod : MonoBehaviour
 
     IEnumerator GetData_Coroutine()
     {
+        weapon.Clear();
         outputArea.text = "Loading...";
         //string uri = "https://my-json-server.typicode.com/typicode/demo/posts";
         string uri = "https://my-json-server.typicode.com/david-wei0628/RepositoryAPI";
-        //uri = uri + "/comments";
-        uri = uri + "/UserApi?Strength=easy";
+        //uri = uri + "/comments?Strength=normal";
+        uri = uri + "/UserApi";
 
         using (UnityWebRequest request = UnityWebRequest.Get(uri))
         {
@@ -45,8 +46,9 @@ public class GetMethod : MonoBehaviour
                 var WeaponryData_DBtoVar_Data = SequenceData(request.downloadHandler.text);
 
                 outputArea.text = WeaponryData_DBtoVar_Data;
-                print(WeaponryData_DBtoVar_Data);
-                weapon = JsonUtility.FromJson<WeaponryData>(WeaponryData_DBtoVar_Data);
+                print(weapon.Count);
+                //var weap = JsonConvert.DeserializeObject<WeaponryData>(b);
+                //weapon.Add( JsonUtility.FromJson<WeaponryData>(WeaponryData_DBtoVar_Data));
             }
         }
 
@@ -54,9 +56,39 @@ public class GetMethod : MonoBehaviour
 
     string SequenceData(string data)
     {
-        data = data.TrimStart('[');
-        data = data.TrimEnd(']');
+        //data = data.TrimStart('[');
+        //data = data.TrimEnd(']');
+        //return data;
 
-        return data;
+        var newdata = data.Split(new string[] { "[\n","]"},System.StringSplitOptions.RemoveEmptyEntries);
+
+        var Listdata = newdata[0].Split(new string[] { "    {", "},\n", "}\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+        if (Listdata.Length > 2)
+        {
+            int i = 0;
+            var ListJsondata = new List<string>();
+            foreach (var item in Listdata)
+            {
+                //if (item.Length > 10)
+                //{
+                ListJsondata.Add(item + "}");
+                JsondataToList( JsonUtility.FromJson<WeaponryData>(ListJsondata[i]));
+                //weapon.Add(new WeaponryData() { Strength = lastVardata.Strength, Weaponry = lastVardata.Weaponry, ATK = lastVardata.ATK, DEF = lastVardata.DEF});
+                i++;
+                //}
+            }
+        }
+        else
+        {
+            JsondataToList(JsonUtility.FromJson<WeaponryData>(newdata[0]));
+            //weapon.Add(new WeaponryData() { Strength = lastVardata.Strength, Weaponry = lastVardata.Weaponry, ATK = lastVardata.ATK, DEF = lastVardata.DEF });
+        }
+
+        return newdata[0];
+    }
+
+    void JsondataToList(WeaponryData lastVardata)
+    {
+        weapon.Add(new WeaponryData() { Strength = lastVardata.Strength, Weaponry = lastVardata.Weaponry, ATK = lastVardata.ATK, DEF = lastVardata.DEF });
     }
 }
